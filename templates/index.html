@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Converter Pro</title>
-    <!-- Tailwind CSS for modern styling -->
+
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
 
     <div class="max-w-xl w-full bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
-        <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2">Image Converter</h1>
+        <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2"></h1>Image Converter</h1>
         <p class="text-center text-gray-400 text-sm mb-6">Convert your images quickly with custom web controls.</p>
 
         <form action="/convert" method="POST" enctype="multipart/form-data" class="space-y-6">
-            
-            <!-- File Input / Drag Zone -->
+
             <div class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors">
                 <input type="file" name="file" id="file" required accept="image/*" class="hidden" onchange="updateFileName(this)">
                 <label for="file" class="cursor-pointer block">
@@ -24,7 +25,7 @@
                 </label>
             </div>
 
-            <!-- Target Format -->
+
             <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">Target Format</label>
                 <select name="format" id="format" onchange="toggleQualitySlider(this.value)" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500">
@@ -35,35 +36,17 @@
                 </select>
             </div>
 
-            <!-- Quality Slider -->
             <div id="quality-container">
                 <label class="block text-sm font-medium text-gray-300 mb-1">Quality / Compression Level</label>
-                <input type="range" name="quality" min="10" max="100" value="85" class="w-full accent-indigo-500">
+                <input type="range" name="quality" min="10" max="100" value="85" class="w-full">
             </div>
 
-            <!-- Submit Button -->
             <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-3 rounded-xl shadow-lg transition-all text-white">
                 Convert & Download
             </button>
         </form>
     </div>
 
-    <script>
-        function updateFileName(input) {
-            const label = document.getElementById('file-label');
-            if (input.files && input.files[0]) {
-                label.innerText = `Selected: ${input.files[0].name}`;
-            }
-        }
-
-        function toggleQualitySlider(format) {
-            const qualityContainer = document.getElementById('quality-container');
-            if (format === 'WEBP' || format === 'JPEG') {
-                qualityContainer.style.display = 'block';
-            } else {
-                qualityContainer.style.display = 'none';
-            }
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
