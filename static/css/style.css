@@ -1,0 +1,8 @@
+.dropzone-hover {
+    border-color: #1014e9 !important;
+    background-color: rgba(99, 102, 241, 0.05);
+}
+
+input[type="range"] {
+    accent-color: #0104d6;
+}
