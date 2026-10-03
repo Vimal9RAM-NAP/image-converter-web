@@ -1,68 +1,61 @@
 import io
-import streamlit as st
+from flask import Flask, render_template, request, send_file
 from PIL import Image
 
-st.set_page_config(
-    page_title="Image Converter & Compressor", page_icon="img", layout="centered"
-)
+app = Flask(__name__)
 
-st.title("Image Converter & Compressor")
-st.write(
-    "Convert single or multiple images into WEBP, PNG, JPEG, or PDF formats easily."
-)
 
-uploaded_files = st.file_uploader(
-    "Choose image files",
-    type=["png", "jpg", "jpeg", "bmp", "webp"],
-    accept_multiple_files=True,
-)
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-if uploaded_files:
-    st.subheader("Settings")
 
-    target_format = st.selectbox(
-        "Select output format:", ["WEBP", "PNG", "JPEG", "PDF"]
-    )
+@app.route("/convert", methods=["POST"])
+def convert_image():
+    if "file" not in request.files:
+        return "No file uploaded", 400
 
-    quality = 85
-    if target_format in ["WEBP", "JPEG"]:
-        quality = st.slider("Quality / Compression Level:", 10, 100, 85)
+    file = request.files["file"]
+    target_format = request.form.get("format", "WEBP").upper()
+    quality = int(request.form.get("quality", 85))
 
-    if st.button("Convert Image(s)"):
-        st.divider()
+    if file.filename == "":
+        return "No selected file", 400
 
-        for idx, file in enumerate(uploaded_files):
-            image = Image.open(file)
-            output_buffer = io.BytesIO()
+    try:
+        image = Image.open(file.stream)
+        output_buffer = io.BytesIO()
 
-            if target_format in ["JPEG", "PDF"] and image.mode in (
-                "RGBA",
-                "P",
-                "LA",
-            ):
-                image = image.convert("RGB")
+        # RGB conversion for transparency-unsupported formats
+        if target_format in ["JPEG", "PDF"] and image.mode in (
+            "RGBA",
+            "P",
+            "LA",
+        ):
+            image = image.convert("RGB")
 
-            if target_format in ["WEBP", "JPEG"]:
-                image.save(output_buffer, format=target_format, quality=quality)
-            else:
-                image.save(output_buffer, format=target_format)
+        # Format saving
+        if target_format in ["WEBP", "JPEG"]:
+            image.save(output_buffer, format=target_format, quality=quality)
+        else:
+            image.save(output_buffer, format=target_format)
 
-            output_data = output_buffer.getvalue()
+        output_buffer.seek(0)
 
-            ext = target_format.lower()
-            if ext == "jpeg":
-                ext = "jpg"
-            out_filename = f"converted_{idx+1}.{ext}"
+        ext = "jpg" if target_format.lower() == "jpeg" else target_format.lower()
+        download_name = f"converted.{ext}"
+        mime_type = "image/jpeg" if ext == "jpg" else f"image/{ext}"
 
-            col1, col2 = st.columns([1, 2])
-            with col1:
-                st.image(image, use_column_width=True)
-            with col2:
-                st.write(f"**{file.name}** $\rightarrow$ **{out_filename}**")
-                st.download_button(
-                    label=f"⬇Download {out_filename}",
-                    data=output_data,
-                    file_name=out_filename,
-                    mime=f"image/{'jpeg' if ext == 'jpg' else ext}",
-                    key=f"dl_{idx}",
-                )
+        return send_file(
+            output_buffer,
+            mimetype=mime_type,
+            as_attachment=True,
+            download_name=download_name,
+        )
+
+    except Exception as e:
+        return f"Error processing image: {str(e)}", 500
+
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
