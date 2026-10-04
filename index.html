@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Converter Pro</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+
+    <div class="max-w-xl w-full bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
+        <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2">Image Converter</h1>
+        <p class="text-center text-gray-400 text-sm mb-6">Convert your images instantly directly in your browser.</p>
+
+        <form id="converter-form" class="space-y-6">
+            
+
+            <div id="drop-zone" class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors">
+                <input type="file" id="file-input" required accept="image/*" class="hidden">
+                <label for="file-input" class="cursor-pointer block">
+                    <div class="text-4xl mb-2">📁</div>
+                    <span id="file-label" class="text-gray-300 font-medium">Click to select or drag an image</span>
+                </label>
+            </div>
+
+
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Target Format</label>
+                <select id="format-select" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500">
+                    <option value="image/webp">WEBP</option>
+                    <option value="image/jpeg">JPEG</option>
+                    <option value="image/png">PNG</option>
+                </select>
+            </div>
+
+            <div id="quality-container">
+                <div class="flex justify-between text-sm font-medium text-gray-300 mb-1">
+                    <label>Quality / Compression Level</label>
+                    <span id="quality-val">85%</span>
+                </div>
+                <input type="range" id="quality-range" min="10" max="100" value="85" class="w-full accent-indigo-500">
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-3 rounded-xl shadow-lg transition-all text-white">
+                Convert & Download
+            </button>
+        </form>
+    </div>
+
+    <canvas id="conversion-canvas" class="hidden"></canvas>
+
+    <script src="static/js/main.js"></script>
+    <script src="static/js/converter.js"></script>
+</body>
+</html>
