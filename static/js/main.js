@@ -47,7 +47,7 @@ qualityRange.addEventListener('input', (e) => {
 });
 
 formatSelect.addEventListener('change', (e) => {
-    if (e.target.value === 'image/png') {
+    if (e.target.value === 'image/png' || e.target.value === 'image/svg+xml') {
         qualityContainer.style.opacity = '0.3';
         qualityContainer.style.pointerEvents = 'none';
     } else {
