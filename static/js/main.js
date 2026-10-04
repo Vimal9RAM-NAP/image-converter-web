@@ -6,24 +6,53 @@ const qualityRange = document.getElementById('quality-range');
 const qualityVal = document.getElementById('quality-val');
 const dropZone = document.getElementById('drop-zone');
 
+const emptyState = document.getElementById('empty-state');
+const previewImg = document.getElementById('preview-img');
+const metaBadges = document.getElementById('meta-badges');
+const metaDim = document.getElementById('meta-dim');
+const metaSize = document.getElementById('meta-size');
+
+function handleFileSelection(file) {
+    if (!file) return;
+
+    fileLabel.innerText = file.name;
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewImg.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        metaBadges.classList.remove('hidden');
+
+        
+        const tempImg = new Image();
+        tempImg.onload = () => {
+            metaDim.innerText = `${tempImg.width} x ${tempImg.height}px`;
+            metaSize.innerText = `${(file.size / 1024).toFixed(1)} KB`;
+        };
+        tempImg.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+}
 
 fileInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
-        fileLabel.innerText = `Selected: ${e.target.files[0].name}`;
+        handleFileSelection(e.target.files[0]);
     }
 });
-
 
 qualityRange.addEventListener('input', (e) => {
     qualityVal.innerText = `${e.target.value}%`;
 });
 
-
 formatSelect.addEventListener('change', (e) => {
     if (e.target.value === 'image/png') {
-        qualityContainer.style.display = 'none';
+        qualityContainer.style.opacity = '0.3';
+        qualityContainer.style.pointerEvents = 'none';
     } else {
-        qualityContainer.style.display = 'block';
+        qualityContainer.style.opacity = '1';
+        qualityContainer.style.pointerEvents = 'auto';
     }
 });
 
@@ -31,22 +60,21 @@ formatSelect.addEventListener('change', (e) => {
 ['dragenter', 'dragover'].forEach(eventName => {
     dropZone.addEventListener(eventName, (e) => {
         e.preventDefault();
-        dropZone.classList.add('border-indigo-500', 'bg-gray-700');
+        dropZone.classList.add('dropzone-active');
     }, false);
 });
 
 ['dragleave', 'drop'].forEach(eventName => {
     dropZone.addEventListener(eventName, (e) => {
         e.preventDefault();
-        dropZone.classList.remove('border-indigo-500', 'bg-gray-700');
+        dropZone.classList.remove('dropzone-active');
     }, false);
 });
 
 dropZone.addEventListener('drop', (e) => {
     const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length > 0) {
-        fileInput.files = files;
-        fileLabel.innerText = `Selected: ${files[0].name}`;
+    if (dt.files.length > 0) {
+        fileInput.files = dt.files;
+        handleFileSelection(dt.files[0]);
     }
 });
