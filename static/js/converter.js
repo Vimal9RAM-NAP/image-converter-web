@@ -23,7 +23,7 @@ document.getElementById('converter-form').addEventListener('submit', function (e
 
             
             if (formatSelect === 'image/jpeg') {
-                ctx.fillStyle = '#FFFFFF';
+                ctx.fillStyle = '#f734a5';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
 
