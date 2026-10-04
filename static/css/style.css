@@ -1,7 +1,25 @@
-#drop-zone {
-    transition: all 0.2s ease-in-out;
+body {
+    font-family: 'Space Grotesk', sans-serif;
 }
 
-input[type="range"] {
-    accent-color: #5bce7e;
+
+.dropzone-active {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05) !important;
+}
+
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ef4444;
 }
