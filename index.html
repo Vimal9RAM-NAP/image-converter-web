@@ -3,52 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Converter Pro</title>
-
+    <title>Image PRO Converter</title>
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="static/css/style.css">
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
+<body class="bg-black text-zinc-100 min-h-screen flex flex-col font-space selection:bg-red-600 selection:text-white">
 
-    <div class="max-w-xl w-full bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-700">
-        <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2">Image Converter Pro</h1>
-        <p class="text-center text-gray-400 text-sm mb-6">Convert your images instantly directly in your browser.</p>
-
-        <form id="converter-form" class="space-y-6">
-            
-
-            <div id="drop-zone" class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors">
-                <input type="file" id="file-input" required accept="image/*" class="hidden">
-                <label for="file-input" class="cursor-pointer block">
-                    <div class="text-4xl mb-2">📁</div>
-                    <span id="file-label" class="text-gray-300 font-medium">Click to select or drag an image</span>
-                </label>
-            </div>
+ 
+    <header class="w-full border-b border-zinc-800 bg-black/80 backdrop-blur px-8 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <span class="h-3 w-3 rounded-full bg-red-600 animate-pulse"></span>
+            <span class="font-bold tracking-tight text-lg text-white">IMAGE PRO<span class="text-red-500">CONVERTER</span></span>
+        </div>
+        <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Client-Side Engine v1.0</span>
+    </header>
 
 
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+ 
+        <section class="lg:col-span-5 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 shadow-2xl space-y-6">
             <div>
-                <label class="block text-sm font-medium text-gray-300 mb-2">Target Format</label>
-                <select id="format-select" class="w-full bg-gray-700 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:border-indigo-500">
-                    <option value="image/webp">WEBP</option>
-                    <option value="image/jpeg">JPEG</option>
-                    <option value="image/png">PNG</option>
-                </select>
+                <h1 class="text-xl font-bold tracking-tight text-white mb-1">Image Converter</h1>
+                <p class="text-xs text-zinc-400">Process high-resolution formats directly in browser memory.</p>
             </div>
 
-            <div id="quality-container">
-                <div class="flex justify-between text-sm font-medium text-gray-300 mb-1">
-                    <label>Quality / Compression Level</label>
-                    <span id="quality-val">85%</span>
+            <form id="converter-form" class="space-y-6">
+                
+ 
+                <div id="drop-zone" class="border border-dashed border-zinc-700/80 rounded-xl p-6 text-center hover:border-red-500/80 bg-zinc-900/40 transition-all cursor-pointer group">
+                    <input type="file" id="file-input" required accept="image/*" class="hidden">
+                    <label for="file-input" class="cursor-pointer block">
+                        <div class="w-10 h-10 mx-auto mb-3 text-zinc-400 group-hover:text-red-500 transition-colors">
+                            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+                        </div>
+                        <span id="file-label" class="text-sm text-zinc-300 font-medium block">Drop image here or click to browse</span>
+                        <span class="text-[10px] text-zinc-500 font-mono mt-1 block">PNG, JPG, WEBP, SVG</span>
+                    </label>
                 </div>
-                <input type="range" id="quality-range" min="10" max="100" value="85" class="w-full accent-indigo-500">
+
+                <div class="space-y-4 pt-2">
+                    <div>
+                        <label class="block text-xs font-mono uppercase tracking-wider text-zinc-400 mb-2">Export Format</label>
+                        <select id="format-select" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-red-500 transition-colors font-mono">
+                            <option value="image/webp">WEBP (Modern Web)</option>
+                            <option value="image/jpeg">JPEG (Compressed)</option>
+                            <option value="image/png">PNG (Lossless)</option>
+                        </select>
+                    </div>
+
+                    <div id="quality-container">
+                        <div class="flex justify-between text-xs font-mono mb-2">
+                            <span class="uppercase tracking-wider text-zinc-400">Quality Ratio</span>
+                            <span id="quality-val" class="text-red-500 font-bold">85%</span>
+                        </div>
+                        <input type="range" id="quality-range" min="10" max="100" value="85" class="w-full accent-red-600 bg-zinc-800 h-1.5 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-red-600/20 transition-all text-sm tracking-wide flex items-center justify-center space-x-2">
+                    <span>Export Image</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </button>
+            </form>
+        </section>
+
+        <section class="lg:col-span-7 bg-zinc-950 border border-zinc-800/80 rounded-2xl p-6 min-h-[420px] flex flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-zinc-800/80 pb-4 mb-4">
+                <span class="text-xs font-mono uppercase tracking-wider text-zinc-400">Live Stage View</span>
+                <div id="meta-badges" class="hidden flex space-x-3 text-xs font-mono">
+                    <span id="meta-dim" class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 rounded text-zinc-300">0 x 0</span>
+                    <span id="meta-size" class="px-2.5 py-1 bg-zinc-900 border border-zinc-800 rounded text-red-400">0 KB</span>
+                </div>
             </div>
 
-            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-3 rounded-xl shadow-lg transition-all text-white">
-                Convert & Download
-            </button>
-        </form>
-    </div>
+        
+            <div id="preview-container" class="flex-1 flex flex-col items-center justify-center border border-zinc-900 rounded-xl bg-black/60 p-4 relative overflow-hidden min-h-[280px]">
+                <div id="empty-state" class="text-center space-y-2">
+                    <div class="w-12 h-12 mx-auto text-zinc-700">
+                        <svg fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+                    </div>
+                    <p class="text-xs text-zinc-500 font-mono">No active canvas rendering</p>
+                </div>
+                <img id="preview-img" class="hidden max-h-[320px] object-contain rounded shadow-lg">
+            </div>
+        </section>
 
+    </main>
+
+   
     <canvas id="conversion-canvas" class="hidden"></canvas>
 
     <script src="static/js/main.js"></script>
